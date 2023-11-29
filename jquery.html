@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    
+    <!-- Include jQuery UI (for accordion, datepicker, tabs, and progressbar) -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <style>
+        .gallery-images {
+            display: flex;
+            overflow: hidden;
+            margin: 20px;
+        }
+
+        .gallery-image {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .accordion {
+            max-width: 1170px;
+            margin: 40px auto 0;
+        }
+
+        .at-tab {
+            display: none;
+            padding: 15px;
+            border: 1px solid #dddddd;
+            border-top: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .at-title {
+            cursor: pointer;
+            background-color: #f5f5f5;
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
+
+        .at-title:hover {
+            background-color: #e0e0e0;
+        }
+
+        .at-title:after {
+            content: "+";
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 10px;
+            transition: all 0.3s ease;
+            font-size: 24px;
+        }
+
+        .at-title.active:after {
+            content: "-";
+        }
+
+        .at-item {
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .at-title h2 {
+            font-size: 22px;
+            font-weight: 600;
+            padding: 10px 15px;
+            margin: 0;
+        }
+
+        .accordion-header {
+            text-align: center;
+            background-color: #222222;
+            color: white;
+            padding: 20px 0;
+        }
+
+        .datepicker-container {
+            margin: 20px;
+        }
+
+        .tabs-container {
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Image Gallery</h1>
+
+    <div class="gallery-images">
+    
+    </div>
+
+    <div class="accordion">
+        <div class="at-item">
+            <div class="at-title active">
+                <h2>Accordion title 1</h2>
+            </div>
+            <div class="at-tab" style="display: block;">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod, reprehenderit.
+            </div>
+        </div>
+        <div class="at-item">
+            <div class="at-title">
+                <h2>Accordion title 2</h2>
+            </div>
+            <div class="at-tab">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod, reprehenderit.
+            </div>
+        </div>
+        <div class="at-item">
+            <div class="at-title">
+                <h2>Accordion title 3</h2>
+            </div>
+            <div class="at-tab">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod, reprehenderit.
+            </div>
+        </div>
+    </div>
+
+    <div class="datepicker-container">
+        <label for="datepicker">Select Date:</label>
+        <input type="text" id="datepicker">
+    </div>
+
+    <div class="tabs-container">
+
+    </div>
+
+    <button id="toggleClassBtn">Toggle Image Classes</button>
+
+    <script>
+        const galleryData = {
+            "gallery": "My gallery",
+            "images": [
+                { "name": "Photo 1", "file": "image1.webp" },
+                { "name": "Photo 2", "file": "image2.webp" },
+                { "name": "Photo 3", "file": "image3.webp" }
+            ]
+        };
+
+        function displayImages() {
+            const galleryContainer = $('.gallery-images');
+            galleryData.images.forEach(image => {
+                const imgElement = $(`<img src="${image.file}" alt="${image.name}" class="gallery-image">`);
+                imgElement.click(() => {
+                    alert(`Clicked on ${image.name}`);
+                });
+                galleryContainer.append(imgElement);
+            });
+        }
+
+        // Display accordion menu
+        function displayAccordionMenu() {
+            $(document).ready(function () {
+                $(".at-title").click(function () {
+                    $(this).toggleClass("active").next(".at-tab").slideToggle().parent().siblings().find(".at-tab").slideUp().prev().removeClass("active");
+                });
+            });
+        }
+
+        function initializeDatepicker() {
+            $('#datepicker').datepicker();
+        }
+
+        function displayTabsContent() {
+            const tabsContainer = $('.tabs-container');
+            tabsContainer.append('<ul><li><a href="#tab1">Tab 1</a></li><li><a href="#tab2">Tab 2</a></li></ul>');
+            tabsContainer.append('<div id="tab1">Tab 1 content</div>');
+            tabsContainer.append('<div id="tab2">Tab 2 content</div>');
+            tabsContainer.tabs();
+        }
+
+        function toggleImageClasses() {
+            $('.gallery-image').toggleClass('new-class');
+        }
+
+        // Document ready function
+        $(document).ready(function () {
+            displayImages();
+            displayAccordionMenu();
+            initializeDatepicker();
+            displayTabsContent();
+            displayProgressbar();
+
+            $('#toggleClassBtn').click(toggleImageClasses);
+        });
+    </script>
+
+    <style>
+        .new-class {
+            border: 2px solid red;
+        }
+    </style>
+
+</body>
+</html>
